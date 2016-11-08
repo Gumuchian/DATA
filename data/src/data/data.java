@@ -13,14 +13,21 @@ public class data {
 		try{
 			Path path=Paths.get("data_science.dat");
 			byte[] data=Files.readAllBytes(path);
-			int t[]=new int[(data.length-4)/184];
+			short t[][]=new short[40][(data.length-4)/184];
 			FileWriter fw = new FileWriter ("data.txt");
 			BufferedWriter bw = new BufferedWriter (fw);
-			int i;
+			int i,j;
 			PrintWriter fichierSortie = new PrintWriter (bw);
-			for (i=0;i<t.length;i++){
-				t[i]=(int) ((data[i*184+8]<<8 & 0xFF)+(data[i*184+8+1]) & 0xFF);
-				fichierSortie.println(t[i]);
+			for (i=0;i<(data.length-4)/184;i++){
+				for (j=0;j<40;j++){
+					t[j][i]=(short) ((data[i*164+8+j*4]<<8)+(data[i*164+8+1+j*4]));
+					if (j!=39){
+						fichierSortie.print(t[j][i]+"\t");
+					}
+					else{
+						fichierSortie.println(t[j][i]);
+					}
+				}
 			}
 			fichierSortie.close();
 			fw.close();
