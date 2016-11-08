@@ -15,31 +15,29 @@ public class data {
 			InputStream file=new FileInputStream("data_science.dat"); 
 			InputStreamReader fich=new InputStreamReader(file);
 			BufferedReader br=new BufferedReader(fich);
+			FileWriter fw = new FileWriter ("data.txt");
+			BufferedWriter bw = new BufferedWriter (fw);
+			PrintWriter fichierSortie = new PrintWriter (bw); 
 			String data=br.readLine();
+			byte datab[]=data.getBytes();
 			int t[]=new int[(data.length()-4)/184];
 			int i;
 			for (i=0;i<t.length;i++){
-				
+				t[i]=(int) ((datab[i*184+8]<<8)+datab[i*184+8+1]);
+				fichierSortie.println(t[i]);
 			}
+			System.out.println(data.length());
 			fich.close();
 			file.close();
 			br.close(); 
-		}		
+			fichierSortie.close();
+			fw.close();
+			bw.close();
+		}
 		catch (Exception e){
 			System.out.println(e.toString());
 		}
 		
-		try {
-			FileWriter fw = new FileWriter ("data.txt");
-			BufferedWriter bw = new BufferedWriter (fw);
-			PrintWriter fichierSortie = new PrintWriter (bw); 
-				fichierSortie.println (chaine+"\n test de lecture et écriture !!"); 
-			fichierSortie.close();
-			System.out.println("Le fichier " + fichier + " a été créé!"); 
-		}
-		catch (Exception e){
-			System.out.println(e.toString());
-		}
 	}
 
 }
