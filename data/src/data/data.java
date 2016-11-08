@@ -1,35 +1,27 @@
 package data;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileInputStream;
 import java.io.FileWriter;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class data {
 
-	public static void main(String[] args) {
+	public static void main(String[] args){
 		try{
-			InputStream file=new FileInputStream("data_science.dat"); 
-			InputStreamReader fich=new InputStreamReader(file);
-			BufferedReader br=new BufferedReader(fich);
+			Path path=Paths.get("data_science.dat");
+			byte[] data=Files.readAllBytes(path);
+			int t[]=new int[(data.length-4)/184];
 			FileWriter fw = new FileWriter ("data.txt");
 			BufferedWriter bw = new BufferedWriter (fw);
-			PrintWriter fichierSortie = new PrintWriter (bw); 
-			String data=br.readLine();
-			byte datab[]=data.getBytes();
-			int t[]=new int[(data.length()-4)/184];
 			int i;
+			PrintWriter fichierSortie = new PrintWriter (bw);
 			for (i=0;i<t.length;i++){
-				t[i]=(int) ((datab[i*184+8]<<8)+datab[i*184+8+1]);
+				t[i]=(int) ((data[i*184+8]<<8 & 0xFF)+(data[i*184+8+1]) & 0xFF);
 				fichierSortie.println(t[i]);
 			}
-			System.out.println(data.length());
-			fich.close();
-			file.close();
-			br.close(); 
 			fichierSortie.close();
 			fw.close();
 			bw.close();
@@ -37,7 +29,8 @@ public class data {
 		catch (Exception e){
 			System.out.println(e.toString());
 		}
-		
+
+
 	}
 
 }
