@@ -42,6 +42,7 @@ public class data {
 			fichierSortie1.close();
 			fw1.close();
 			bw1.close();
+			System.out.println("OK");
 		}
 		catch (Exception e){
 			System.out.println(e.toString());
